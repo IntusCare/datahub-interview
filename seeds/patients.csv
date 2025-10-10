@@ -1,0 +1,16 @@
+patient_id,first_name,last_name,dob,sex,phone,email,address_line_1,city,state,zip_code
+P001,John,Smith,1945-03-15,M,2125551234,john.smith@email.com,123 Main St,New York,NY,10001
+P002,Mary,Johnson,1952-07-22,F,3105559876,mary.j@email.com,456 Oak Ave,Los Angeles,CA,90001
+P003,Robert,Williams,1938-11-30,M,7735551111,,789 Elm Street,Chicago,IL,60601
+P004,Patricia,Brown,1960-01-08,F,(415) 555-2222,pat.brown@email.com,321 Pine Rd,San Francisco,CA,94102
+P005,Michael,Davis,1955-09-12,M,2135554567,m.davis@email.com,654 Cedar Ln,Los Angeles,CA,90012
+P006,Linda,Miller,1948-04-25,F,6175553333,linda.miller@email.com,987 Birch Ct,Boston,MA,02101
+P007,William,Wilson,1942-12-03,M,7135559999,w.wilson@email.com,147 Maple Dr,Houston,TX,77001
+P008,Barbara,Moore,1958-06-18,F,3125558888,barbara.m@email.com,258 Walnut Pl,Chicago,IL,60602
+P009,Richard,Taylor,1950-08-27,M,,richard.t@email.com,369 Spruce Way,Phoenix,AZ,85001
+P010,Susan,Anderson,1963-02-14,F,2145557777,s.anderson@email.com,741 Ash Blvd,Dallas,TX,75201
+P011,James,Thomas,1940-05-09,M,5105556666,j.thomas@email.com,852 Poplar Ave,Oakland,CA,94601
+P012,Jessica,Jackson,1957-10-31,F,6465554444,jessica.j@email.com,963 Hickory St,New York,NY,10002
+P013,Charles,White,1946-03-20,M,3235555555,c.white@email.com,159 Sycamore Rd,Los Angeles,CA,90013
+P014,Dorothy,Harris,1954-07-07,F,8575552222,dorothy.h@email.com,357 Willow Ln,Boston,MA,02102
+P015,Joseph,Martin,1961-11-15,M,2815553333,,468 Chestnut Dr,Houston,TX,77002

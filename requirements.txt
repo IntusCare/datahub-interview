@@ -1,0 +1,6 @@
+# DBT Core and SQLite adapter
+dbt-core>=1.5.0
+dbt-sqlite>=1.5.0
+
+# Additional helpful packages
+sqlparse>=0.4.0

@@ -1,0 +1,84 @@
+name: 'datahub_interview'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'datahub_interview'
+
+# These configurations specify where dbt should look for different types of files.
+# To test with answer key, comment out "models" and uncomment "answers" below:
+model-paths: ["models"]
+# model-paths: ["answers"]  # Uncomment to test answer key
+
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+  - "logs"
+
+# Configuring models
+models:
+  datahub_interview:
+    # Apply to all models
+    +on_schema_change: append_new_columns
+
+    # Raw layer configuration
+    raw:
+      +materialized: ephemeral
+      +schema: raw
+
+    # Staged layer configuration
+    staged:
+      +materialized: table
+      +schema: staged
+
+    # Intermediate layer configuration
+    intermediate:
+      +materialized: table
+      +schema: intermediate
+
+    # Final layer configuration
+    final:
+      +materialized: table
+      +schema: final
+
+# Seed configurations
+seeds:
+  datahub_interview:
+    +schema: raw
+    # Column type overrides for SQLite
+    patients:
+      +column_types:
+        patient_id: text
+        first_name: text
+        last_name: text
+        dob: text
+        sex: text
+        phone: text
+        email: text
+        address_line_1: text
+        city: text
+        state: text
+        zip_code: text
+
+    encounters:
+      +column_types:
+        encounter_id: text
+        patient_id: text
+        provider_id: text
+        encounter_date: text
+        encounter_type: text
+        status: text
+        chief_complaint: text
+
+    diagnoses:
+      +column_types:
+        diagnosis_id: text
+        encounter_id: text
+        icd10_code: text
+        diagnosis_description: text
+        diagnosis_date: text
+        is_primary: text

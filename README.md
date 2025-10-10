@@ -1,2 +1,305 @@
-# datahub-interview
-A repository with exercises for datahub interview candidates
+# DataHub Interview Exercise
+
+A technical exercise for data engineering candidates on the DataHub team.
+
+## Objective
+
+To assess a candidate's knowledge and skills when using technologies we use on the DataHub team. We want to get a sense for:
+
+* Ability to code SQL using CTEs (Common Table Expressions)
+* Ability to understand our transformation pipeline's structure and stages
+* Healthcare data domain familiarity
+* DBT (Data Build Tool) proficiency
+* Git workflow and version control practices
+
+## Overview
+
+This exercise simulates our real-world data transformation pipeline. You'll work with healthcare data (patients, encounters, diagnoses) and transform it through multiple stages using DBT and SQL, following the same patterns we use in production.
+
+**Time Limit:** 1 hour
+
+**Note:** Focus on completing the staged layer first, then intermediate, then final if time permits. Quality over quantity - we'd rather see one layer done well than all layers done poorly.
+
+---
+
+## Setup Instructions
+
+### Prerequisites
+
+- Python 3.8 or higher
+- Git
+- A text editor or IDE of your choice
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd datahub-interview
+```
+
+### 2. Create a Virtual Environment
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure DBT Profile
+
+```bash
+# Copy the profiles.yml to your home directory
+mkdir -p ~/.dbt
+cp profiles.yml ~/.dbt/profiles.yml
+
+# Or set the DBT_PROFILES_DIR environment variable
+export DBT_PROFILES_DIR=$(pwd)
+```
+
+### 5. Verify Setup
+
+```bash
+dbt debug
+```
+
+You should see "All checks passed!"
+
+---
+
+## Data Pipeline Architecture
+
+Our transformation pipeline follows a **four-stage architecture**:
+
+```
+Seeds (CSV files)
+    ↓
+Raw Layer (ephemeral)
+    ↓
+Staged Layer (cleaned & standardized)
+    ↓
+Intermediate Layer (joined & business logic)
+    ↓
+Final Layer (analytics-ready aggregations)
+```
+
+### Naming Conventions
+
+- **Raw models**: `raw_<entity>.sql` (materialized as ephemeral)
+- **Staged models**: `stg_<entity>.sql` (materialized as tables)
+- **Intermediate models**: `int__<entity>.sql` (materialized as tables, note the double underscore)
+- **Final models**: `<entity>.sql` (materialized as tables, no prefix)
+
+---
+
+## Exercise Tasks
+
+You will complete the transformation logic for **three layers**: staged, intermediate, and final.
+
+### Task 1: Staged Layer (Data Cleaning)
+
+Complete the following models in `models/staged/`:
+
+#### `stg_patient.sql`
+- Clean and standardize patient demographics
+- Remove formatting from phone numbers (keep only digits)
+- Use the `format_phone_number()` macro to format phone numbers as XXX-XXX-XXXX
+- Handle NULL email addresses
+- Cast date fields appropriately
+- Add timestamps
+
+**Key Requirements:**
+- Use CTEs to structure your query
+- Demonstrate proper use of the `format_phone_number()` macro
+- Handle data quality issues (NULLs, formatting inconsistencies)
+
+#### `stg_encounter.sql`
+- Clean and standardize encounter data
+- Filter for completed encounters only
+- Standardize encounter types
+- Cast date fields appropriately
+
+#### `stg_diagnosis.sql`
+- Clean and standardize diagnosis data
+- Uppercase and trim ICD-10 codes
+- Cast date and boolean fields appropriately
+
+### Task 2: Intermediate Layer (Business Logic)
+
+Complete `models/intermediate/int__patient_encounter.sql`:
+
+- Join patient, encounter, and diagnosis data
+- Calculate patient age at time of encounter
+- Identify primary diagnoses
+- Count total diagnoses per encounter
+- Flag encounters with chronic conditions
+  - Chronic conditions for this exercise: `I10`, `E11.9`, `E11.65`, `J44.9`, `J44.1`, `I50.9`
+
+**Key Requirements:**
+- Use multiple CTEs for logical organization
+- Demonstrate proper join techniques
+- Apply business logic calculations
+
+### Task 3: Final Layer (Analytics Aggregations)
+
+Complete `models/final/patient_encounter_summary.sql`:
+
+- Create patient-level summary statistics
+- Aggregate encounter counts, diagnosis counts
+- Calculate temporal metrics (first/last encounter dates)
+- Identify most common encounter types
+- Count emergency visits
+
+**Key Requirements:**
+- Use CTEs for complex aggregations
+- Demonstrate window functions or grouping techniques
+- Create analytics-ready output
+
+---
+
+## Running Your Transformations
+
+### Load Seed Data
+
+```bash
+dbt seed
+```
+
+### Run All Models
+
+```bash
+dbt run
+```
+
+### Run Specific Models
+
+```bash
+# Run staged layer only
+dbt run --select staged.*
+
+# Run a specific model
+dbt run --select stg_patient
+```
+
+### Test Your Models
+
+```bash
+dbt test
+```
+
+---
+
+## Expected Deliverables
+
+1. **Completed SQL Models**
+   - All TODOs in the staged, intermediate, and final models implemented
+   - Clean, readable SQL with proper CTE usage
+   - Appropriate data type casting and transformations
+
+2. **Working Pipeline**
+   - All models should run successfully with `dbt run`
+   - No errors or warnings
+
+3. **Git Workflow**
+   - Create a new branch: `git checkout -b <your-name>/interview-exercise`
+   - Commit your work with meaningful commit messages
+   - Push to remote: `git push origin <your-name>/interview-exercise`
+   - Open a Pull Request with a summary of your work
+
+---
+
+## Evaluation Criteria
+
+We will evaluate your submission based on:
+
+### SQL Proficiency (40%)
+- Proper use of CTEs for query organization
+- Clean, readable SQL code
+- Appropriate use of joins, aggregations, and window functions
+- Correct data type casting
+
+### DBT Knowledge (20%)
+- Correct use of DBT references (`ref()`)
+- Proper use of macros
+- Understanding of materialization strategies
+
+### Healthcare Domain Understanding (20%)
+- Appropriate handling of healthcare data (ICD-10 codes, encounters, etc.)
+- Logical business rule implementation
+- Understanding of chronic conditions
+
+### Data Quality & Edge Cases (10%)
+- Handling of NULL values
+- Data cleaning and standardization
+- Attention to data quality issues
+
+### Git & Documentation (10%)
+- Clean commit history
+- Meaningful commit messages
+- Clear PR description
+
+---
+
+## Tips & Hints
+
+### SQLite-Specific Functions
+
+- **Date calculations**: Use `julianday()` for date arithmetic
+  ```sql
+  -- Calculate age
+  (julianday('now') - julianday(dob)) / 365.25
+  ```
+
+- **String functions**: `substr()`, `replace()`, `trim()`, `upper()`, `lower()`
+
+- **NULL handling**: `coalesce()`, `ifnull()`
+
+### Debugging
+
+```bash
+# View compiled SQL
+dbt compile
+
+# Run with debug logging
+dbt run --debug
+
+# View logs
+cat logs/dbt.log
+```
+
+### Common Issues
+
+- **Phone number cleaning**: Remove all non-numeric characters before formatting
+- **Date casting**: SQLite stores dates as text, cast appropriately
+- **Boolean handling**: SQLite uses 0/1 for booleans
+- **CTEs**: Remember to reference them in your final SELECT
+
+---
+
+## Sample Data Overview
+
+### Patients (15 records)
+- Demographics: name, DOB, sex, contact information
+- Intentional data quality issues: inconsistent phone formatting, missing emails
+
+### Encounters (20 records)
+- Clinical visits linked to patients
+- Multiple encounter types: Office Visit, Follow-up, Emergency
+- Date range: January - May 2024
+
+### Diagnoses (24 records)
+- ICD-10 coded diagnoses linked to encounters
+- Includes both primary and secondary diagnoses
+- Mix of acute and chronic conditions
+
+---
+
+## Questions?
+
+If you have questions during the exercise, please reach out to your interview coordinator.
+
+Good luck! 

@@ -1,0 +1,29 @@
+# DBT Profile Configuration for SQLite
+#
+# This file should be copied to ~/.dbt/profiles.yml or you can use it directly
+# by setting the DBT_PROFILES_DIR environment variable to this directory.
+#
+# Usage:
+#   export DBT_PROFILES_DIR=/path/to/datahub-interview
+#   dbt run
+
+datahub_interview:
+  target: dev
+  outputs:
+    dev:
+      type: sqlite
+      # The database file will be created in the project root
+      database: 'datahub_interview.db'
+      # SQLite schema is typically 'main'
+      schema: 'main'
+      # Number of threads for parallel execution
+      threads: 1
+      # Schema directory - all schemas will use the same database file
+      schema_directory: './'
+      # Use single database for all schemas
+      schemas_and_paths:
+        main: 'datahub_interview.db'
+        raw: 'datahub_interview.db'
+        staged: 'datahub_interview.db'
+        intermediate: 'datahub_interview.db'
+        final: 'datahub_interview.db'

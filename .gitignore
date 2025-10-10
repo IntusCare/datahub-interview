@@ -1,0 +1,48 @@
+# Answer key (do not commit)
+answers/
+
+# Grading outputs
+candidate_results.csv
+answer_key_results.csv
+grade_report.txt
+
+# DBT artifacts
+target/
+dbt_packages/
+logs/
+dbt_modules/
+
+# SQLite database files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
