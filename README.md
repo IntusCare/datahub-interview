@@ -239,6 +239,10 @@ git commit -m "Complete DBT interview exercise - [Your Name]"
 git push origin <firstname>_<lastname>
 ```
 
+### 4. Open a Pull Request
+
+Go to the [Datahub-Interview repo](https://github.com/IntusCare/datahub-interview) and open a pull request.
+
 ### 4. What We're Looking For
 
 - **Completed SQL Models**: All TODOs in the staged, intermediate, and final models implemented
