@@ -236,7 +236,7 @@ git commit -m "Complete DBT interview exercise - [Your Name]"
 
 ```bash
 # Push your branch to remote
-git push origin firstname_lastname
+git push origin <firstname>_<lastname>
 ```
 
 ### 4. What We're Looking For
@@ -244,42 +244,10 @@ git push origin firstname_lastname
 - **Completed SQL Models**: All TODOs in the staged, intermediate, and final models implemented
 - **Clean, Readable SQL**: Proper CTE usage and clear structure
 - **Working Pipeline**: All models run successfully with `dbt run` (no errors)
-- **CSV Output**: Your results exported as `firstname_lastname.csv`
+- **CSV Output**: Your results exported as `<firstname>_<lastname>.csv`
 - **Git History**: Meaningful commit messages showing your work
+- **PR Interaction**: How you handle comments on your pull request
 
----
-
-## Evaluation Criteria
-
-We will evaluate your submission based on:
-
-### SQL Proficiency (40%)
-- Proper use of CTEs for query organization
-- Clean, readable SQL code
-- Appropriate use of joins, aggregations, and window functions
-- Correct data type casting
-
-### DBT Knowledge (20%)
-- Correct use of DBT references (`ref()`)
-- Proper use of macros
-- Understanding of materialization strategies
-
-### Healthcare Domain Understanding (20%)
-- Appropriate handling of healthcare data (ICD-10 codes, encounters, etc.)
-- Logical business rule implementation
-- Understanding of chronic conditions
-
-### Data Quality & Edge Cases (10%)
-- Handling of NULL values
-- Data cleaning and standardization
-- Attention to data quality issues
-
-### Git & Documentation (10%)
-- Clean commit history
-- Meaningful commit messages
-- Clear PR description
-
----
 
 ## Tips & Hints
 
