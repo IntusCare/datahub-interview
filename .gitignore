@@ -1,9 +1,7 @@
 # Answer key (do not commit)
 answers/
 
-# Grading outputs (exclude from git)
-candidate_results.csv
-answer_key_results.csv
+# Grading script and outputs (exclude from git)
 grade_report.txt
 
 # Allow candidate submissions (firstname_lastname.csv pattern)
