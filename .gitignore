@@ -1,10 +1,13 @@
 # Answer key (do not commit)
 answers/
 
-# Grading outputs
+# Grading outputs (exclude from git)
 candidate_results.csv
 answer_key_results.csv
 grade_report.txt
+
+# Allow candidate submissions (firstname_lastname.csv pattern)
+# These will be committed when candidates submit their work
 
 # DBT artifacts
 target/
