@@ -30,12 +30,17 @@ This exercise simulates our real-world data transformation pipeline. You'll work
 - Git
 - A text editor or IDE of your choice
 
-### 1. Clone the Repository
+### 1. Clone the Repository and Create Your Branch
 
 ```bash
 git clone <repository-url>
 cd datahub-interview
+
+# Create a branch with your name (use underscores, no spaces)
+git checkout -b firstname_lastname
 ```
+
+**Example:** If your name is Jane Doe, use: `git checkout -b jane_doe`
 
 ### 2. Create a Virtual Environment
 
@@ -195,20 +200,47 @@ dbt test
 
 ## Expected Deliverables
 
-1. **Completed SQL Models**
-   - All TODOs in the staged, intermediate, and final models implemented
-   - Clean, readable SQL with proper CTE usage
-   - Appropriate data type casting and transformations
+When you have completed the exercise, follow these steps:
 
-2. **Working Pipeline**
-   - All models should run successfully with `dbt run`
-   - No errors or warnings
+### 1. Export Your Results
 
-3. **Git Workflow**
-   - Create a new branch: `git checkout -b <your-name>/interview-exercise`
-   - Commit your work with meaningful commit messages
-   - Push to remote: `git push origin <your-name>/interview-exercise`
-   - Open a Pull Request with a summary of your work
+Generate a CSV file from your final database with your name:
+
+```bash
+# Replace firstname and lastname with your actual name (lowercase, underscores)
+sqlite3 main_final.db ".mode csv" ".headers on" \
+  ".output firstname_lastname.csv" \
+  "SELECT * FROM patient_encounter_summary;" \
+  ".quit"
+```
+
+**Example:** For Jane Doe, the file should be named `jane_doe.csv`
+
+### 2. Commit Your Work
+
+```bash
+# Add your models and CSV file
+git add models/staged/ models/intermediate/ models/final/
+git add firstname_lastname.csv
+
+# Commit with a meaningful message
+git commit -m "Complete DBT interview exercise - [Your Name]"
+```
+
+### 3. Push Your Branch
+
+```bash
+# Push your branch to remote
+git push origin firstname_lastname
+```
+
+### 4. What We're Looking For
+
+- **Completed SQL Models**: All TODOs in the staged, intermediate, and final models implemented
+- **Clean, Readable SQL**: Proper CTE usage and clear structure
+- **Working Pipeline**: All models run successfully with `dbt run` (no errors)
+- **CSV Output**: Your results exported as `firstname_lastname.csv`
+- **Git History**: Meaningful commit messages showing your work
 
 ---
 
