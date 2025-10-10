@@ -94,9 +94,9 @@ Final Layer (analytics-ready aggregations)
 
 ### Naming Conventions
 
-- **Raw models**: `raw_<entity>.sql` (materialized as ephemeral)
-- **Staged models**: `stg_<entity>.sql` (materialized as tables)
-- **Intermediate models**: `int__<entity>.sql` (materialized as tables, note the double underscore)
+- **Raw models**: `raw__<entity>.sql` (materialized as ephemeral, note the double underscore)
+- **Staged models**: `stg__<entity>.sql` (materialized as tables)
+- **Intermediate models**: `int__<entity>.sql` (materialized as tables)
 - **Final models**: `<entity>.sql` (materialized as tables, no prefix)
 
 ---
@@ -105,22 +105,27 @@ Final Layer (analytics-ready aggregations)
 
 You will complete the transformation logic for **three layers**: staged, intermediate, and final.
 
+**Key Requirements:**
+- Handle data quality issues (NULLs, formatting inconsistencies)
+- Make the correct joins, being aware of where the one-to-many relationships are between data
+- Produce the final table of patieant-centered encounter and diagnostic data.
+
+**Preferred Approaches**
+- Use CTEs to structure your queries
+- Demonstrate proper use of the macro that are in the macros directory in your queries
+
 ### Task 1: Staged Layer (Data Cleaning)
 
 Complete the following models in `models/staged/`:
 
 #### `stg_patient.sql`
 - Clean and standardize patient demographics
-- Remove formatting from phone numbers (keep only digits)
-- Use the `format_phone_number()` macro to format phone numbers as XXX-XXX-XXXX
+- Ensure that all phone numbers are formatted as XXX-XXX-XXXX
 - Handle NULL email addresses
 - Cast date fields appropriately
 - Add timestamps
 
-**Key Requirements:**
-- Use CTEs to structure your query
-- Demonstrate proper use of the `format_phone_number()` macro
-- Handle data quality issues (NULLs, formatting inconsistencies)
+
 
 #### `stg_encounter.sql`
 - Clean and standardize encounter data
@@ -309,24 +314,6 @@ cat logs/dbt.log
 - **Date casting**: SQLite stores dates as text, cast appropriately
 - **Boolean handling**: SQLite uses 0/1 for booleans
 - **CTEs**: Remember to reference them in your final SELECT
-
----
-
-## Sample Data Overview
-
-### Patients (15 records)
-- Demographics: name, DOB, sex, contact information
-- Intentional data quality issues: inconsistent phone formatting, missing emails
-
-### Encounters (20 records)
-- Clinical visits linked to patients
-- Multiple encounter types: Office Visit, Follow-up, Emergency
-- Date range: January - May 2024
-
-### Diagnoses (24 records)
-- ICD-10 coded diagnoses linked to encounters
-- Includes both primary and secondary diagnoses
-- Mix of acute and chronic conditions
 
 ---
 
