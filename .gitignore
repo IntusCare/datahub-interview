@@ -1,11 +1,6 @@
-# Answer key (do not commit)
-answers/
-
-# Grading script and outputs (exclude from git)
-grade_report.txt
-
-# Allow candidate submissions (firstname_lastname.csv pattern)
-# These will be committed when candidates submit their work
+# Intus-Only files
+intus/*
+!intus/git.keep
 
 # DBT artifacts
 target/
