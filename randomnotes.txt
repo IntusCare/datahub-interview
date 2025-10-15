@@ -20,4 +20,4 @@ encounter type ranking is already implemented by a window function, nothing need
 
 dbt test = "nothing to do. try checking your model configs and model specification args"
 
-might want to consider dbt show --select patient_encounter_summary --output text > firstname_lastname.txt
+the baseline sqlite3 command to export final csv didn't work out of the box, I assume it requires a separate sqlite install, alternatively can use the python script I added here, 'python .\export_csv.py firstname lastname'
