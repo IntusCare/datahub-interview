@@ -21,3 +21,5 @@ encounter type ranking is already implemented by a window function, nothing need
 dbt test = "nothing to do. try checking your model configs and model specification args"
 
 the baseline sqlite3 command to export final csv didn't work out of the box, I assume it requires a separate sqlite install, alternatively can use the python script I added here, 'python .\export_csv.py firstname lastname'
+
+Pretty sure candidates have the ability to view other candidates PRs
