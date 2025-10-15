@@ -83,23 +83,26 @@ with
             p.last_name as patient_last_name,
             -- TODO: Calculate age at encounter (use julianday for SQLite)
             -- HINT: cast((julianday(encounter_date) - julianday(dob)) / 365.25 as integer)
-            null as patient_age_at_encounter,
+            cast((julianday(encounter_date) - julianday(dob)) / 365.25 as integer) as patient_age_at_encounter,
             p.sex as patient_sex,
             p.phone_formatted as patient_phone_formatted,
             e.encounter_date,
             e.encounter_type,
             e.chief_complaint,
             -- TODO: Include primary diagnosis information
-            null as primary_diagnosis_code,
-            null as primary_diagnosis_description,
+            coalesce(pd.primary_diagnosis_code, '') as primary_diagnosis_code,
+            coalesce(pd.primary_diagnosis_description, '') as primary_diagnosis_description,
             -- TODO: Include diagnosis count
-            null as total_diagnoses_count,
+            coalesce(dc.total_diagnoses_count, 0) as total_diagnoses_count,
             -- TODO: Include chronic condition flag (use COALESCE to handle NULLs as 0)
-            0 as has_chronic_condition,
+            coalesce(cc.has_chronic_condition, 0) as has_chronic_condition,
             current_timestamp as created_at
         from encounters e
         inner join patients p on e.patient_id = p.patient_id
         -- TODO: Add LEFT JOINs for primary_diagnoses, diagnosis_counts, and chronic_conditions
+        left join primary_diagnoses pd on e.encounter_id = pd.encounter_id
+        left join diagnosis_counts dc on e.encounter_id = dc.encounter_id
+        left join chronic_conditions cc on e.encounter_id = cc.encounter_id
     )
 
 select * from joined

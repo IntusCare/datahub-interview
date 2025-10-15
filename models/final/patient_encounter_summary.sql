@@ -48,11 +48,11 @@ with
             max(encounter_date) as most_recent_encounter_date,
             sum(total_diagnoses_count) as total_diagnoses,
             -- TODO: Count distinct diagnosis codes
-            null as unique_diagnosis_codes,
+            count(distinct primary_diagnosis_code) as unique_diagnosis_codes,
             -- TODO: Use MAX() to get chronic condition flag (any 1 = 1)
-            0 as has_chronic_condition,
+            max(has_chronic_condition) as has_chronic_condition,
             -- TODO: Count emergency encounters
-            null as emergency_visit_count
+            count(case when encounter_type = 'Emergency' then 1 end) as emergency_visit_count
         from source
         group by patient_id
     ),
@@ -87,20 +87,22 @@ with
             p.phone_formatted as patient_phone_formatted,
             -- TODO: Calculate current age from dob
             -- HINT: cast((julianday('now') - julianday(dob)) / 365.25 as integer)
-            null as current_age,
+            cast((julianday('now') - julianday(dob)) / 365.25 as integer) as current_age,
             -- TODO: Include aggregated metrics from patient_encounters CTE
-            null as total_encounters,
-            null as first_encounter_date,
-            null as most_recent_encounter_date,
-            null as total_diagnoses,
-            null as unique_diagnosis_codes,
-            null as has_chronic_condition,
+            pe.total_encounters,
+            pe.first_encounter_date,
+            pe.most_recent_encounter_date,
+            pe.total_diagnoses,
+            pe.unique_diagnosis_codes,
+            pe.has_chronic_condition,
             -- TODO: Include most common encounter type
-            null as most_common_encounter_type,
-            null as emergency_visit_count,
+            mt.most_common_encounter_type,
+            pe.emergency_visit_count,
             current_timestamp as created_at
         from patients p
         -- TODO: Add LEFT JOINs for patient_encounters and most_common_type CTEs
+        left join patient_encounters pe on p.patient_id = pe.patient_id
+        left join most_common_type mt on p.patient_id = mt.patient_id
     )
 
 select * from final

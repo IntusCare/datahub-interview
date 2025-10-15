@@ -1,0 +1,23 @@
+pip install time = around 2 mins
+
+typo on patieant-centered encounter
+
+does 'standardize to 10 digits' imply that there's some country codes or other non-10-digit phone numbers? 
+
+might be nice to throw in some sample commands they can use to look at their output
+
+might be worth (if you want to challenge the use of AI here) to have the instructions/readme in a separate page/not in the same repo so a candidate's IDE won't be able to just index all of the instructions and autocomplete tasks - I'm personal pro-use of AI because if they're able to use it effectively that means they're also just going to be more effective at actually working, but rarely-if-ever is the context in the real world as good as what you're providing in the instructions here, if anything its set up too well to give people who are using AI a higher advantage than they would have otherwise.  
+
+I dont think SQLite has a regex_replace, so we have to do 4 separate replaces with each '-', "(", ")", " " ?
+
+intermediate says to create a view, its materialized as table? 
+
+It looks like all of the CTEs in the int model are all already written for you. 
+
+the hint for calculating age at encounter is just the complete solution. 
+
+encounter type ranking is already implemented by a window function, nothing needed to do. 
+
+dbt test = "nothing to do. try checking your model configs and model specification args"
+
+might want to consider dbt show --select patient_encounter_summary --output text > firstname_lastname.txt
