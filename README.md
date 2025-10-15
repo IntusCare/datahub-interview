@@ -108,7 +108,7 @@ You will complete the transformation logic for **three layers**: staged, interme
 **Key Requirements:**
 - Handle data quality issues (NULLs, formatting inconsistencies)
 - Make the correct joins, being aware of where the one-to-many relationships are between data
-- Produce the final table of patieant-centered encounter and diagnostic data.
+- Produce the final table of patient-centered encounter and diagnostic data.
 
 **Preferred Approaches**
 - Use CTEs to structure your queries
