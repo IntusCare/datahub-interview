@@ -39,7 +39,7 @@ with
         select * from {{ ref("stg_patient") }}
     ),
 
-    -- TODO: Create aggregation CTE for patient-level encounter metrics
+    -- TODO: Modify this aggregation CTE for patient-level encounter metrics
     patient_encounters as (
         select
             patient_id,
@@ -77,7 +77,6 @@ with
         where rn = 1
     ),
 
-    -- TODO: Join everything together
     final as (
         select
             p.patient_id,
@@ -86,7 +85,7 @@ with
             p.sex as patient_sex,
             p.phone_formatted as patient_phone_formatted,
             -- TODO: Calculate current age from dob
-            -- HINT: cast((julianday('now') - julianday(dob)) / 365.25 as integer)
+            -- HINT: this is valid syntax: julianday(date1) - julianday(date2)
             null as current_age,
             -- TODO: Include aggregated metrics from patient_encounters CTE
             null as total_encounters,

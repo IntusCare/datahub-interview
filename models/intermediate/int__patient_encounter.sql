@@ -46,7 +46,7 @@ with
         select * from {{ ref("stg_diagnosis") }}
     ),
 
-    -- TODO: Create a CTE to identify primary diagnoses
+    -- TODO: Modify this CTE to identify primary diagnoses
     primary_diagnoses as (
         select
             encounter_id,
@@ -57,24 +57,18 @@ with
     ),
 
     -- TODO: Create a CTE to aggregate diagnosis counts per encounter
-    diagnosis_counts as (
-        select
-            encounter_id,
-            count(*) as total_diagnoses_count
-        from diagnoses
-        group by encounter_id
-    ),
+    -- diagnosis_counts as (
+
+    -- ),
 
     -- TODO: Create a CTE to flag chronic conditions
-    chronic_conditions as (
-        select distinct
-            encounter_id,
-            1 as has_chronic_condition
-        from diagnoses
-        where icd10_code in ('I10', 'E11.9', 'E11.65', 'J44.9', 'J44.1', 'I50.9')
-    ),
+    -- Output should include has_chronic_condition - 0 or 1
+    -- chronic_conditions as (
+    --     select distinct
+    --         encounter_id,
+    --         ...
+    -- ),
 
-    -- TODO: Join all CTEs together
     joined as (
         select
             e.encounter_id,
@@ -82,7 +76,7 @@ with
             p.first_name as patient_first_name,
             p.last_name as patient_last_name,
             -- TODO: Calculate age at encounter (use julianday for SQLite)
-            -- HINT: cast((julianday(encounter_date) - julianday(dob)) / 365.25 as integer)
+            -- HINT: this is valid syntax: cast((julianday(encounter_date) - julianday(dob)) / 1.5 as integer)
             null as patient_age_at_encounter,
             p.sex as patient_sex,
             p.phone_formatted as patient_phone_formatted,
@@ -95,6 +89,7 @@ with
             -- TODO: Include diagnosis count
             null as total_diagnoses_count,
             -- TODO: Include chronic condition flag (use COALESCE to handle NULLs as 0)
+            -- HINT: this is valid syntax: 'coalesce(expression, default_value) as has_chronic_condition'
             0 as has_chronic_condition,
             current_timestamp as created_at
         from encounters e
