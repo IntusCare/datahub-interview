@@ -76,7 +76,7 @@ with
             p.first_name as patient_first_name,
             p.last_name as patient_last_name,
             -- TODO: Calculate age at encounter (use julianday for SQLite)
-            -- HINT: this is valid syntax: cast((julianday(encounter_date) - julianday(dob)) / 1.5 as integer)
+            -- HINT: this is valid syntax: cast((julianday(date1) - julianday(date2)) / 1.5 as integer)
             null as patient_age_at_encounter,
             p.sex as patient_sex,
             p.phone_formatted as patient_phone_formatted,
