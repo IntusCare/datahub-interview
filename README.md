@@ -65,6 +65,19 @@ cp profiles.yml ~/.dbt/profiles.yml
 # Or set the DBT_PROFILES_DIR environment variable
 export DBT_PROFILES_DIR=$(pwd)
 ```
+If on Windows, this environment variable can be set as follows:
+
+Powershell:
+```bash
+$env:DBT_PROFILES_DIR = (Get-Location)
+```
+CMD prompt:
+```bash
+set DBT_PROFILES_DIR=%cd%
+```
+
+
+
 
 ### 5. Verify Setup
 
@@ -108,7 +121,7 @@ You will complete the transformation logic for **three layers**: staged, interme
 **Key Requirements:**
 - Handle data quality issues (NULLs, formatting inconsistencies)
 - Make the correct joins, being aware of where the one-to-many relationships are between data
-- Produce the final table of patieant-centered encounter and diagnostic data.
+- Produce the final table of patient-centered encounter and diagnostic data.
 
 **Preferred Approaches**
 - Use CTEs to structure your queries
