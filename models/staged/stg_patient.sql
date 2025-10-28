@@ -44,22 +44,30 @@ with
             patient_id,
             first_name,
             last_name,
-            -- TODO: Keep dob as text (no casting needed for SQLite)
             dob,
             sex,
-            -- TODO: Clean phone number (remove all non-numeric characters)
-            phone as phone_cleaned,
-            -- TODO: Format phone using the format_phone_number macro
-            phone as phone_formatted,
-            -- TODO: Handle NULL emails
-            email,
+            -- Another macro here named phone_number_clean 
+            replace(
+                replace(
+                    replace(
+                         replace(phone,'(',''),
+                    ')',''),
+                '-',''),
+            ' ','') 
+            as phone_cleaned,
+            {{ format_phone_number ("replace(
+                replace(
+                    replace(
+                         replace(phone,'(',''),
+                    ')',''),
+                '-',''),
+            ' ','') ")}} as phone_formatted,
+            coalesce(email,'unknown@example.com') as email,
             address_line_1,
             city,
-            -- TODO: Uppercase state
-            state,
+            upper(state),
             zip_code,
-            -- TODO: Add created_at timestamp
-            null as created_at
+            current_timestamp as created_at
         from source
     )
 

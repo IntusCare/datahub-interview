@@ -32,15 +32,15 @@ with
         select
             diagnosis_id,
             encounter_id,
-            -- TODO: Uppercase and trim ICD-10 code
-            icd10_code,
+            upper(trim(icd10_code)) as icd10_code,
             diagnosis_description,
             -- TODO: Keep as text (no casting needed)
             diagnosis_date,
-            -- TODO: Ensure is_primary is integer type (handle 'true'/'false' strings)
-            is_primary,
-            -- TODO: Add created_at timestamp
-            null as created_at
+            case 
+                when lower(trim(is_primary)) = 'true' then 1
+                else 0
+            end as is_primary,
+            current_timestamp as created_at
         from source
     )
 

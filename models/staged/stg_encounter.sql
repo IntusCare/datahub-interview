@@ -29,21 +29,19 @@ with
     ),
 
     cleaned as (
-        -- TODO: Implement data cleaning and filtering logic here
         select
             encounter_id,
             patient_id,
             provider_id,
-            -- TODO: Keep as text (no casting needed)
             encounter_date,
-            -- TODO: Standardize encounter_type (trim whitespace)
-            encounter_type,
+            -- In PostgreSQL , we can use INITCAP() which would convert directly to title case 
+            -- In Python, we can use title() as well
+            upper(substr(trim(encounter_type),1,1)) || lower(substr(trim(encounter_type),2)) as encounter_type,
             status,
             chief_complaint,
-            -- TODO: Add created_at timestamp
-            null as created_at
+            current_timestamp as created_at
         from source
-        -- TODO: Add WHERE clause to filter for completed encounters only
+             where lower(status) = 'completed'
     )
 
 select * from cleaned

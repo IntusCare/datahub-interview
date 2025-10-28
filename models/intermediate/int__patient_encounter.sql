@@ -53,21 +53,31 @@ with
             icd10_code as primary_diagnosis_code,
             diagnosis_description as primary_diagnosis_description
         from diagnoses
-        -- TODO: Filter for primary diagnoses only
+            where is_primary = 1
     ),
 
-    -- TODO: Create a CTE to aggregate diagnosis counts per encounter
-    -- diagnosis_counts as (
-
-    -- ),
+    diagnosis_counts as (
+        select 
+            encounter_id,
+            count(*) as total_diagnoses_count
+        from
+            diagnoses
+        group by encounter_id
+    ),
 
     -- TODO: Create a CTE to flag chronic conditions
     -- Output should include has_chronic_condition - 0 or 1
-    -- chronic_conditions as (
-    --     select distinct
-    --         encounter_id,
-    --         ...
-    -- ),
+    -- we can also do 1 has chronic condition and shift filtering part in where
+    chronic_conditions as (
+        select distinct
+            encounter_id,
+            1 as has_chronic_condition
+        from 
+            diagnoses
+        where 
+            icd10_code in ('I10', 'E11.9', 'E11.65', 'J44.9', 'J44.1', 'I50.9')
+        group by encounter_id
+    ),
 
     joined as (
         select
@@ -77,24 +87,26 @@ with
             p.last_name as patient_last_name,
             -- TODO: Calculate age at encounter (use julianday for SQLite)
             -- HINT: this is valid syntax: cast((julianday('now') - julianday(date2)) / 1.5 as integer)
-            null as patient_age_at_encounter,
+            cast((julianday(e.encounter_date) - julianday(p.dob)) / 365 as integer) as  patient_age_at_encounter,
             p.sex as patient_sex,
             p.phone_formatted as patient_phone_formatted,
             e.encounter_date,
             e.encounter_type,
             e.chief_complaint,
             -- TODO: Include primary diagnosis information
-            null as primary_diagnosis_code,
-            null as primary_diagnosis_description,
+            pd.primary_diagnosis_code as primary_diagnosis_code,
+            pd.primary_diagnosis_description as primary_diagnosis_description,
             -- TODO: Include diagnosis count
-            null as total_diagnoses_count,
+            coalesce(dc.total_diagnoses_count,0) as total_diagnoses_count,
             -- TODO: Include chronic condition flag (use COALESCE to handle NULLs as 0)
             -- HINT: this is valid syntax: 'coalesce(expression, default_value) as has_chronic_condition'
-            0 as has_chronic_condition,
+            coalesce(cc.has_chronic_condition,0) as has_chronic_condition,
             current_timestamp as created_at
         from encounters e
         inner join patients p on e.patient_id = p.patient_id
-        -- TODO: Add LEFT JOINs for primary_diagnoses, diagnosis_counts, and chronic_conditions
+        left join primary_diagnoses pd on e.encounter_id = pd.encounter_id
+        left join diagnosis_counts dc on e.encounter_id = dc.encounter_id
+        left join chronic_conditions cc on e.encounter_id = cc.encounter_id
     )
 
 select * from joined
