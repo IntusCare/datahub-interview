@@ -116,6 +116,8 @@ Final Layer (analytics-ready aggregations)
 
 ## Exercise Tasks
 
+Before you start writing SQL, take a few minutes to open the seed files in `seeds/` and skim the raw values directly. The task descriptions below tell you what each layer needs to handle in general terms - the specific edge cases you'll actually need to cover are in the data itself, not in this document.
+
 You will complete the transformation logic for **three layers**: staged, intermediate, and final.
 
 **Key Requirements:**

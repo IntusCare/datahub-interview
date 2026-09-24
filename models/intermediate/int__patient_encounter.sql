@@ -88,8 +88,9 @@ with
             null as primary_diagnosis_description,
             -- TODO: Include diagnosis count
             null as total_diagnoses_count,
-            -- TODO: Include chronic condition flag (use COALESCE to handle NULLs as 0)
-            -- HINT: this is valid syntax: 'coalesce(expression, default_value) as has_chronic_condition'
+            -- TODO: Include chronic condition flag
+            -- HINT: think about what an encounter should show here if it has no
+            -- matching row at all in your chronic-conditions CTE
             0 as has_chronic_condition,
             current_timestamp as created_at
         from encounters e
