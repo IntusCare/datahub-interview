@@ -47,7 +47,7 @@ git checkout -b firstname_lastname
 ### 2. Create a Virtual Environment
 
 ```bash
-python -m venv venv
+python3 -m venv venv  # use e.g. python3.11 if you installed a specific version above
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
