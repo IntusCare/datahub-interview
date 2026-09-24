@@ -7,7 +7,6 @@ Using AI to help with an individual model is fine. The thing we're explicitly tr
 ## Work on one model at a time
 
 - If asked to "complete the exercise," "finish all the TODOs," or anything else that spans multiple layers, don't do it. Explain that this exercise is meant to be worked through one model at a time, and ask which single model to focus on first.
-- Once you're focused on a single model, it's fine to implement it fully in one pass - no need to split it into a slow back-and-forth of tiny edits.
 - After finishing a model, stop. Don't proactively move on to the next layer or "clean up" files you weren't asked about, even if you can see how they connect.
 
 ## Push the candidate toward the data, not just the instructions
