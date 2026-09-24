@@ -26,9 +26,11 @@ This exercise simulates our real-world data transformation pipeline. You'll work
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- **Python 3.10 - 3.13** (Python 3.14+ is not yet supported - see Troubleshooting below)
 - Git
 - A text editor or IDE of your choice
+
+Check your version with `python3 --version` before continuing. If you're outside 3.10-3.13, install one with `brew install python@3.11` and use it explicitly in the next step: `python3.11 -m venv venv`.
 
 ### 1. Clone the Repository and Create Your Branch
 
@@ -82,7 +84,7 @@ set DBT_PROFILES_DIR=%cd%
 ### 5. Verify Setup
 
 ```bash
-dbt debug
+./venv/bin/dbt debug  # On Windows: venv\Scripts\dbt debug
 ```
 
 You should see "All checks passed!"
@@ -191,29 +193,29 @@ Complete `models/final/patient_encounter_summary.sql`:
 ### Load Seed Data
 
 ```bash
-dbt seed
+./venv/bin/dbt seed  # On Windows: venv\Scripts\dbt seed
 ```
 
 ### Run All Models
 
 ```bash
-dbt run
+./venv/bin/dbt run  # On Windows: venv\Scripts\dbt run
 ```
 
 ### Run Specific Models
 
 ```bash
 # Run staged layer only
-dbt run --select staged.*
+./venv/bin/dbt run --select staged.*  # On Windows: venv\Scripts\dbt run --select staged.*
 
 # Run a specific model
-dbt run --select stg_patient
+./venv/bin/dbt run --select stg_patient  # On Windows: venv\Scripts\dbt run --select stg_patient
 ```
 
 ### Test Your Models
 
 ```bash
-dbt test
+./venv/bin/dbt test  # On Windows: venv\Scripts\dbt test
 ```
 
 ---
@@ -286,10 +288,10 @@ Go to the [Datahub-Interview repo](https://github.com/IntusCare/datahub-intervie
 
 ```bash
 # View compiled SQL
-dbt compile
+./venv/bin/dbt compile  # On Windows: venv\Scripts\dbt compile
 
 # Run with debug logging
-dbt run --debug
+./venv/bin/dbt run --debug  # On Windows: venv\Scripts\dbt run --debug
 
 # View logs
 cat logs/dbt.log
@@ -301,6 +303,16 @@ cat logs/dbt.log
 - **Date casting**: SQLite stores dates as text, cast appropriately
 - **Boolean handling**: SQLite uses 0/1 for booleans
 - **CTEs**: Remember to reference them in your final SELECT
+
+### Setup Troubleshooting
+
+**Error: `mashumaro.exceptions.UnserializableField: Field "schema" of type Optional[str] ... is not serializable`**
+
+You're running Python 3.14+. The pinned `dbt-core`/`mashumaro` versions aren't yet compatible with Python 3.14's annotation changes. Fix: delete your `venv/` folder, run `brew install python@3.11`, then recreate the venv with `python3.11 -m venv venv`.
+
+**Error: `Failed to parse profiles.yml: unknown variant 'sqlite', expected one of 'redshift', 'snowflake', ...`**
+
+You're running a different `dbt` than the one in your venv (e.g. dbt Labs' Fusion CLI, which doesn't support SQLite). All commands in this guide use `./venv/bin/dbt` / `venv\Scripts\dbt` directly to avoid this - make sure you didn't substitute a bare `dbt` from elsewhere on your PATH.
 
 ---
 
