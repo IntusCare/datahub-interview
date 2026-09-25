@@ -38,8 +38,9 @@ with
 
     cleaned as (
         -- TODO: Implement data cleaning logic here
-        -- HINT: Use REPLACE() function to remove phone formatting characters
-        -- HINT: Use COALESCE() for NULL handling
+        -- HINT: Open seeds/patients.csv and look at how phone numbers actually appear -
+        -- there's more than one formatting style in there to normalize
+        -- HINT: Check which rows have missing emails and decide how you want to represent that downstream
         select
             patient_id,
             first_name,
